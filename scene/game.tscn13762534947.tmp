@@ -1,0 +1,197 @@
+[gd_scene load_steps=10 format=3 uid="uid://by5tjfh0v85x0"]
+
+[ext_resource type="Script" uid="uid://c0w8rv4u48e6y" path="res://script/game.gd" id="1_ixvnl"]
+[ext_resource type="Script" uid="uid://cot2t4fvv7pg8" path="res://script/black_ball.gd" id="2_black"]
+[ext_resource type="Script" uid="uid://cav37jdhmh853" path="res://script/white_ball.gd" id="3_white"]
+[ext_resource type="Texture2D" uid="uid://dbnlx3to4x3da" path="res://assets/texture.png" id="3_xwcet"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xwcet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1ry8"]
+atlas = ExtResource("3_xwcet")
+region = Rect2(29, 11, 66, 66)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xlg7c"]
+radius = 16.0312
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_p1ry8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpk70"]
+atlas = ExtResource("3_xwcet")
+region = Rect2(118, 12, 66, 65)
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_ixvnl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="UpperWorld" type="Node2D" parent="VBoxContainer"]
+
+[node name="Background" type="ColorRect" parent="VBoxContainer/UpperWorld"]
+offset_right = 1280.0
+offset_bottom = 360.0
+
+[node name="Walls" type="StaticBody2D" parent="VBoxContainer/UpperWorld"]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VBoxContainer/UpperWorld/Walls"]
+position = Vector2(639, 360)
+shape = SubResource("WorldBoundaryShape2D_xwcet")
+
+[node name="BlackBall" type="CharacterBody2D" parent="VBoxContainer/UpperWorld"]
+position = Vector2(640, 180)
+collision_layer = 2
+script = ExtResource("2_black")
+
+[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/UpperWorld/BlackBall"]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_p1ry8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VBoxContainer/UpperWorld/BlackBall"]
+shape = SubResource("CircleShape2D_xlg7c")
+debug_color = Color(0.823529, 0.172549, 0.207843, 0.835294)
+
+[node name="TrailParticles" type="CPUParticles2D" parent="VBoxContainer/UpperWorld/BlackBall"]
+emitting = false
+amount = 20
+lifetime = 0.5
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+scale_amount_min = 3.0
+scale_amount_max = 5.0
+color = Color(0, 0, 0, 1)
+
+[node name="DeathParticles" type="CPUParticles2D" parent="VBoxContainer/UpperWorld/BlackBall"]
+emitting = false
+amount = 30
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+scale_amount_min = 3.0
+scale_amount_max = 8.0
+color = Color(0, 0, 0, 1)
+
+[node name="LowerWorld" type="Node2D" parent="VBoxContainer"]
+position = Vector2(0, 360)
+
+[node name="Background" type="ColorRect" parent="VBoxContainer/LowerWorld"]
+offset_right = 1280.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 1)
+
+[node name="Walls" type="StaticBody2D" parent="VBoxContainer/LowerWorld"]
+collision_layer = 4
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VBoxContainer/LowerWorld/Walls"]
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_p1ry8")
+debug_color = Color(1, 1, 1, 0.42)
+
+[node name="WhiteBall" type="CharacterBody2D" parent="VBoxContainer/LowerWorld"]
+position = Vector2(640, 180)
+collision_layer = 8
+collision_mask = 4
+up_direction = Vector2(0, 1)
+script = ExtResource("3_white")
+
+[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/LowerWorld/WhiteBall"]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_qpk70")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VBoxContainer/LowerWorld/WhiteBall"]
+shape = SubResource("CircleShape2D_xlg7c")
+
+[node name="TrailParticles" type="CPUParticles2D" parent="VBoxContainer/LowerWorld/WhiteBall"]
+emitting = false
+amount = 20
+lifetime = 0.5
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+scale_amount_min = 3.0
+scale_amount_max = 5.0
+
+[node name="DeathParticles" type="CPUParticles2D" parent="VBoxContainer/LowerWorld/WhiteBall"]
+emitting = false
+amount = 30
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 100.0
+scale_amount_min = 3.0
+scale_amount_max = 8.0
+
+[node name="GameUI" type="CanvasLayer" parent="."]
+
+[node name="GameOverPanel" type="Panel" parent="GameUI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="GameUI/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -50.0
+offset_right = 90.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "游戏结束"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameUI/GameOverPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = 10.0
+offset_right = 60.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "重新开始"
+
+[connection signal="pressed" from="GameUI/GameOverPanel/RestartButton" to="." method="_on_restart_button_pressed"]

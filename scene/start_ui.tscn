@@ -1,0 +1,239 @@
+[gd_scene load_steps=12 format=3 uid="uid://6nfs2efistah"]
+
+[ext_resource type="Script" uid="uid://d0g78xeuirvg1" path="res://script/start_ui.gd" id="1_ofa54"]
+[ext_resource type="Shader" uid="uid://cml4o12h8o652" path="res://assets/circle_shader.gdshader" id="2_nkfk5"]
+[ext_resource type="FontFile" uid="uid://bswclbtlwh1c0" path="res://assets/JetBrainsMonoNL-Bold.ttf" id="3_nkfk5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ofa54"]
+font = ExtResource("3_nkfk5")
+font_size = 50
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gj8r8"]
+font = ExtResource("3_nkfk5")
+font_size = 50
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xmel7"]
+shader = ExtResource("2_nkfk5")
+shader_parameter/radius = 0.5
+shader_parameter/smoothness = 0.002
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nkfk5"]
+shader = ExtResource("2_nkfk5")
+shader_parameter/radius = 0.5
+shader_parameter/smoothness = 0.01
+
+[sub_resource type="Animation" id="Animation_gbpcu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("circle/small:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.5708]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("circle/big:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-1.5708]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("circle:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_xmel7"]
+resource_name = "hover"
+loop_mode = 1
+step = 0.0167
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("circle/big:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.983333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-1.5708, 1.5708, 4.71239]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("circle/small:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.983333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.5708, -1.5708, -4.71239]
+}
+
+[sub_resource type="Animation" id="Animation_pyxt3"]
+resource_name = "start"
+step = 0.0167
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("circle/big:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-1.5708, 3.14159]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("circle/small:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.5708, -3.14159]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("circle:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bhewb"]
+_data = {
+&"RESET": SubResource("Animation_gbpcu"),
+&"idle": SubResource("Animation_xmel7"),
+&"start": SubResource("Animation_pyxt3")
+}
+
+[node name="StartUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ofa54")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="white" type="ColorRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="zh" type="Label" parent="VBoxContainer/white"]
+layout_mode = 1
+offset_right = 190.0
+offset_bottom = 68.0
+text = "生 & 死"
+label_settings = SubResource("LabelSettings_ofa54")
+
+[node name="black" type="ColorRect" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0, 0, 0, 1)
+
+[node name="num" type="Label" parent="VBoxContainer/black"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -66.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "3 & 4"
+label_settings = SubResource("LabelSettings_gj8r8")
+
+[node name="circle" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="big" type="ColorRect" parent="circle"]
+material = SubResource("ShaderMaterial_xmel7")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -360.0
+offset_right = 360.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -1.5708
+pivot_offset = Vector2(360, 360)
+mouse_filter = 2
+
+[node name="small" type="ColorRect" parent="circle"]
+material = SubResource("ShaderMaterial_nkfk5")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -155.0
+offset_top = -155.0
+offset_right = 155.0
+offset_bottom = 155.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+pivot_offset = Vector2(155, 155)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_bhewb")
+}
