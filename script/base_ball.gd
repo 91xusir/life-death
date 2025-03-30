@@ -85,18 +85,13 @@ func die():
 		return
 	pop_2.play()
 	is_dead = true
-	velocity = Vector2.ZERO
 	$Sprite2D.visible = false
+	velocity = Vector2.ZERO
 	trail_particles.emitting = false
-	if ball_name == BallName.White:
-		game.on_white_ball_death()
-	else:
-		game.on_black_ball_death()
 
 	if particles_tween:
 		particles_tween.kill()
 		particles_tween = null
-		
 	particles_tween = create_tween()
 	death_particles.modulate.a = 1.0
 	death_particles.restart()
@@ -104,23 +99,32 @@ func die():
 	var delay_before_fade = death_particles.lifetime * 0.5
 	particles_tween.tween_property(death_particles, "modulate:a", 0.0, fade_duration).set_delay(delay_before_fade)
 
+	try_revive()
 
-# 重置球的状态
-func reset():
-	is_dead = false
+# 复活
+func try_revive():
+	await get_tree().create_timer(0.5).timeout
 	if is_dead and not other_ball.is_dead:
-		global_position.x = other_ball.global_position.x
-		global_position.y = - other_ball.global_position.y
+		print("复活")
+		position.x = other_ball.position.x
+		position.y = - other_ball.position.y
 		velocity.x = other_ball.velocity.x
 		velocity.y = - other_ball.velocity.y
 		current_speed = other_ball.current_speed
-	else:
-		global_position = initial_global_position
-		velocity = Vector2.ZERO
-		current_speed = min_speed # 重置当前速度
-		$Sprite2D.rotation = 0 # 重置旋转
+		rotation = 0 # 重置旋转
+		trail_particles.emitting = true
+		$Sprite2D.visible = true
+		is_dead = false
+
+# 重置球的状态
+func reset():
+	global_position = initial_global_position
+	velocity = Vector2.ZERO
+	current_speed = min_speed # 重置当前速度
+	rotation = 0 # 重置旋转
 	trail_particles.emitting = true
 	$Sprite2D.visible = true
+	is_dead = false
 
 func check_obstacle_collision():
 	for i in get_slide_collision_count():

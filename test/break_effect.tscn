@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxxxxxxxxxxx"]
-
-[ext_resource type="Script" uid="uid://nhh6pwwc6sy" path="res://test/break_effect.gd" id="1_65tg7"]
-
-[node name="BreakEffect" type="Node2D"]
-script = ExtResource("1_65tg7")

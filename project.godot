@@ -31,13 +31,6 @@ folder_colors={
 "res://script/": "yellow"
 }
 
-[global_group]
-
-ball="球"
-born=""
-game=""
-start_menu=""
-
 [input]
 
 jump={

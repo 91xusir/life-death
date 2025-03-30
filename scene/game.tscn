@@ -14,10 +14,6 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_xlg7c"]
 radius = 16.0312
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_p1ry8"]
-atlas = ExtResource("3_xwcet")
-region = Rect2(29, 11, 66, 66)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_17rxn"]
 atlas = ExtResource("3_xwcet")
 region = Rect2(29, 11, 66, 66)
@@ -26,13 +22,17 @@ region = Rect2(29, 11, 66, 66)
 atlas = ExtResource("3_xwcet")
 region = Rect2(29, 11, 66, 66)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1ry8"]
+atlas = ExtResource("3_xwcet")
+region = Rect2(29, 11, 66, 66)
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xwcet"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qpk70"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ll5lq"]
 atlas = ExtResource("3_xwcet")
 region = Rect2(118, 12, 66, 65)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ll5lq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpk70"]
 atlas = ExtResource("3_xwcet")
 region = Rect2(118, 12, 66, 65)
 
@@ -185,6 +185,33 @@ tracks/1/keys = {
 "values": [false, true]
 }
 
+[sub_resource type="Animation" id="Animation_yq8tf"]
+resource_name = "start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LogoFade:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LogoFade:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
 [sub_resource type="Animation" id="Animation_ym5sv"]
 resource_name = "null_area"
 length = 1.5
@@ -213,33 +240,6 @@ tracks/1/keys = {
 "values": [false, true, false]
 }
 
-[sub_resource type="Animation" id="Animation_yq8tf"]
-resource_name = "start"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("LogoFade:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("LogoFade:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_17rxn"]
 _data = {
 &"RESET": SubResource("Animation_ll5lq"),
@@ -249,7 +249,7 @@ _data = {
 &"null_area": SubResource("Animation_ym5sv")
 }
 
-[node name="Game" type="Node2D" groups=["game"]]
+[node name="Game" type="Node2D"]
 script = ExtResource("1_ixvnl")
 debug = true
 
@@ -315,10 +315,6 @@ other_ball = NodePath("../../LowerWorld/WhiteBall")
 shape = SubResource("CircleShape2D_xlg7c")
 debug_color = Color(0.823529, 0.172549, 0.207843, 0.835294)
 
-[node name="Sprite2D" type="Sprite2D" parent="UpperWorld/BlackBall"]
-scale = Vector2(0.5, 0.5)
-texture = SubResource("AtlasTexture_p1ry8")
-
 [node name="TrailParticles" type="CPUParticles2D" parent="UpperWorld/BlackBall"]
 amount = 30
 texture = SubResource("AtlasTexture_17rxn")
@@ -348,28 +344,33 @@ initial_velocity_max = 100.0
 scale_amount_min = 0.1
 scale_amount_max = 0.2
 
+[node name="Sprite2D" type="Sprite2D" parent="UpperWorld/BlackBall"]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_p1ry8")
+
+[node name="4" type="Label" parent="UpperWorld/BlackBall/Sprite2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -59.5
+offset_right = -21.0
+offset_bottom = -6.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyLabel"
+theme_override_font_sizes/font_size = 40
+text = "4"
+
 [node name="Pop" type="AudioStreamPlayer" parent="UpperWorld/BlackBall"]
 stream = ExtResource("4_xlg7c")
 
 [node name="Pop2" type="AudioStreamPlayer" parent="UpperWorld/BlackBall"]
 stream = ExtResource("9_17rxn")
 volume_db = -15.0
-
-[node name="4" type="Label" parent="UpperWorld/BlackBall"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -5.0
-offset_top = -12.0
-offset_right = 5.0
-offset_bottom = 11.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("7_qpk70")
-theme_type_variation = &"MyLabel"
-text = "4"
 
 [node name="Floor" type="StaticBody2D" parent="UpperWorld"]
 collision_mask = 2
@@ -396,10 +397,6 @@ up_direction = Vector2(0, 1)
 script = ExtResource("2_p1ry8")
 game = NodePath("../..")
 other_ball = NodePath("../../UpperWorld/BlackBall")
-
-[node name="Sprite2D" type="Sprite2D" parent="LowerWorld/WhiteBall"]
-scale = Vector2(0.5, 0.5)
-texture = SubResource("AtlasTexture_qpk70")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LowerWorld/WhiteBall"]
 shape = SubResource("CircleShape2D_xlg7c")
@@ -430,29 +427,34 @@ initial_velocity_max = 100.0
 scale_amount_min = 0.1
 scale_amount_max = 0.2
 
+[node name="Sprite2D" type="Sprite2D" parent="LowerWorld/WhiteBall"]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_qpk70")
+
+[node name="3" type="Label" parent="LowerWorld/WhiteBall/Sprite2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -59.0
+offset_right = -21.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyLabel"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "3"
+
 [node name="Pop" type="AudioStreamPlayer" parent="LowerWorld/WhiteBall"]
 stream = ExtResource("4_xlg7c")
 
 [node name="Pop2" type="AudioStreamPlayer" parent="LowerWorld/WhiteBall"]
 stream = ExtResource("9_17rxn")
 volume_db = -15.0
-
-[node name="3" type="Label" parent="LowerWorld/WhiteBall"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -5.0
-offset_top = -11.5
-offset_right = 5.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("7_qpk70")
-theme_type_variation = &"MyLabel"
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "3"
 
 [node name="Floor" type="StaticBody2D" parent="LowerWorld"]
 collision_layer = 4
