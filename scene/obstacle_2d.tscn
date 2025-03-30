@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhqxdv0hg4o5m"]
+
+[ext_resource type="Script" uid="uid://df4fr43xg8dga" path="res://script/obstacle_2d.gd" id="1_5s8sy"]
+
+[node name="Obstacle2D" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 32
+script = ExtResource("1_5s8sy")
+color = Color(0, 0, 0, 1)

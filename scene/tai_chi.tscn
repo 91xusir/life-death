@@ -1,0 +1,97 @@
+[gd_scene load_steps=8 format=3 uid="uid://do7jh1qrw83e5"]
+
+[ext_resource type="Script" uid="uid://rck4tkm8hl7j" path="res://script/tai_chi.gd" id="1_24rdx"]
+[ext_resource type="Texture2D" uid="uid://dbnlx3to4x3da" path="res://assets/texture/ball_texture.png" id="1_wsjwb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24rdx"]
+atlas = ExtResource("1_wsjwb")
+region = Rect2(403, 88, 580, 592)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_13p21"]
+radius = 38.0526
+
+[sub_resource type="Animation" id="Animation_24rdx"]
+resource_name = "idle"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_13p21"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j02ge"]
+_data = {
+&"RESET": SubResource("Animation_13p21"),
+&"idle": SubResource("Animation_24rdx")
+}
+
+[node name="TaiChi" type="Node2D"]
+script = ExtResource("1_24rdx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_24rdx")
+
+[node name="ColorRect" type="ColorRect" parent="Sprite2D"]
+visible = false
+offset_left = -54.0
+offset_top = -232.0
+offset_right = 86.0
+offset_bottom = -86.0
+
+[node name="ColorRect2" type="ColorRect" parent="Sprite2D"]
+visible = false
+offset_left = -54.0
+offset_top = 68.0
+offset_right = 86.0
+offset_bottom = 214.0
+color = Color(0, 0, 0, 1)
+
+[node name="black" type="Area2D" parent="Sprite2D"]
+position = Vector2(0, -158)
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/black"]
+shape = SubResource("CircleShape2D_13p21")
+
+[node name="white" type="Area2D" parent="Sprite2D"]
+position = Vector2(-2, 144)
+collision_layer = 16
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/white"]
+shape = SubResource("CircleShape2D_13p21")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_j02ge")
+}
+autoplay = "idle"
+speed_scale = 0.8
+
+[connection signal="body_entered" from="Sprite2D/black" to="." method="_on_black_body_entered"]
+[connection signal="body_entered" from="Sprite2D/white" to="." method="_on_white_body_entered"]

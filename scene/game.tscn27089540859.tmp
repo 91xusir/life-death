@@ -1,0 +1,554 @@
+[gd_scene load_steps=27 format=3 uid="uid://by5tjfh0v85x0"]
+
+[ext_resource type="Script" uid="uid://c0w8rv4u48e6y" path="res://script/game.gd" id="1_ixvnl"]
+[ext_resource type="Script" uid="uid://bml4f11ttyeu0" path="res://script/base_ball.gd" id="2_p1ry8"]
+[ext_resource type="Texture2D" uid="uid://dbnlx3to4x3da" path="res://assets/texture/ball_texture.png" id="3_xwcet"]
+[ext_resource type="AudioStream" uid="uid://c8q74wdtsfjgk" path="res://assets/audio/pop.mp3" id="4_xlg7c"]
+[ext_resource type="Texture2D" uid="uid://bpfmjui3g7tw0" path="res://assets/texture/texture2.png" id="5_p1ry8"]
+[ext_resource type="Script" uid="uid://ymvp411wk2qy" path="res://script/camera_2d.gd" id="5_xlg7c"]
+[ext_resource type="Theme" uid="uid://cjlmk6m8bqip5" path="res://assets/game_theme.tres" id="7_qpk70"]
+[ext_resource type="AudioStream" uid="uid://dh24n8phn1w7d" path="res://assets/audio/game.mp3" id="8_ll5lq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlg7c"]
+atlas = ExtResource("5_p1ry8")
+region = Rect2(326, 216, 327, 324)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_17rxn"]
+load_path = "res://.godot/imported/texture2.png-52ed78e0fef337649fa86e19f2bef344.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yq8tf"]
+atlas = SubResource("CompressedTexture2D_17rxn")
+region = Rect2(530, 607, 311, 127)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ym5sv"]
+load_path = "res://.godot/imported/texture2.png-52ed78e0fef337649fa86e19f2bef344.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sng2h"]
+atlas = SubResource("CompressedTexture2D_ym5sv")
+region = Rect2(752, 216, 326, 324)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_p1ry8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qpk70"]
+atlas = ExtResource("3_xwcet")
+region = Rect2(118, 12, 66, 65)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xlg7c"]
+radius = 16.0312
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ll5lq"]
+atlas = ExtResource("3_xwcet")
+region = Rect2(118, 12, 66, 65)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_xwcet"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1ry8"]
+atlas = ExtResource("3_xwcet")
+region = Rect2(29, 11, 66, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17rxn"]
+atlas = ExtResource("3_xwcet")
+region = Rect2(29, 11, 66, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ym5sv"]
+atlas = ExtResource("3_xwcet")
+region = Rect2(29, 11, 66, 66)
+
+[sub_resource type="Animation" id="Animation_ll5lq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GameOverFadeOut:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GameOverFadeOut:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("NextLevelFadeOut:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("NextLevelFadeOut:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Logo:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Logo:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_qpk70"]
+resource_name = "game_over"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GameOverFadeOut:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GameOverFadeOut:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_17rxn"]
+resource_name = "next_level"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("NextLevelFadeOut:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("NextLevelFadeOut:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_yq8tf"]
+resource_name = "start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Logo:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Logo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_17rxn"]
+_data = {
+&"RESET": SubResource("Animation_ll5lq"),
+&"game_over": SubResource("Animation_qpk70"),
+&"next_level": SubResource("Animation_17rxn"),
+&"start": SubResource("Animation_yq8tf")
+}
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_ixvnl")
+
+[node name="tips" type="Node2D" parent="."]
+position = Vector2(440, 260)
+
+[node name="A" type="Sprite2D" parent="tips"]
+position = Vector2(-224, -124)
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_xlg7c")
+
+[node name="<-" type="Sprite2D" parent="tips"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-227, -20)
+scale = Vector2(0.3, 0.3)
+texture = SubResource("AtlasTexture_yq8tf")
+
+[node name="->" type="Sprite2D" parent="tips"]
+position = Vector2(-227, 219)
+rotation = 3.14159
+scale = Vector2(0.3, 0.3)
+texture = SubResource("AtlasTexture_yq8tf")
+
+[node name="D" type="Sprite2D" parent="tips"]
+position = Vector2(-224, 324)
+scale = Vector2(0.2, 0.2)
+texture = SubResource("AtlasTexture_sng2h")
+
+[node name="BG1" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="BG1"]
+motion_mirroring = Vector2(1280, 0)
+
+[node name="Background" type="ColorRect" parent="BG1/ParallaxLayer"]
+offset_right = 1280.0
+offset_bottom = 360.0
+
+[node name="Background2" type="ColorRect" parent="BG1/ParallaxLayer"]
+offset_top = 360.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+
+[node name="BG2" type="ParallaxBackground" parent="."]
+offset = Vector2(0, -500)
+transform = Transform2D(1, 0, 0, 1, 0, -500)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="BG2"]
+position = Vector2(4, -472)
+motion_mirroring = Vector2(1280, 0)
+
+[node name="Background" type="ColorRect" parent="BG2/ParallaxLayer"]
+offset_right = 1280.0
+offset_bottom = 360.0
+
+[node name="Background2" type="ColorRect" parent="BG2/ParallaxLayer"]
+offset_top = 360.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+
+[node name="BG3" type="ParallaxBackground" parent="."]
+offset = Vector2(0, -500)
+transform = Transform2D(1, 0, 0, 1, 0, -500)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="BG3"]
+position = Vector2(0, -1457)
+motion_mirroring = Vector2(1280, 0)
+
+[node name="Background" type="ColorRect" parent="BG3/ParallaxLayer"]
+offset_right = 1280.0
+offset_bottom = 360.0
+
+[node name="Background2" type="ColorRect" parent="BG3/ParallaxLayer"]
+offset_top = 360.0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+
+[node name="LowerWorld" type="Node2D" parent="."]
+position = Vector2(0, 360)
+
+[node name="Walls" type="StaticBody2D" parent="LowerWorld"]
+collision_layer = 4
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LowerWorld/Walls"]
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_p1ry8")
+debug_color = Color(1, 1, 1, 0.42)
+
+[node name="WhiteBall" type="CharacterBody2D" parent="LowerWorld" node_paths=PackedStringArray("game", "sync_partner") groups=["ball"]]
+position = Vector2(217, 222)
+collision_layer = 8
+collision_mask = 4
+up_direction = Vector2(0, 1)
+script = ExtResource("2_p1ry8")
+game = NodePath("../..")
+debug = true
+sync_partner = NodePath("../../UpperWorld/BlackBall")
+
+[node name="Sprite2D" type="Sprite2D" parent="LowerWorld/WhiteBall"]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_qpk70")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LowerWorld/WhiteBall"]
+shape = SubResource("CircleShape2D_xlg7c")
+
+[node name="TrailParticles" type="CPUParticles2D" parent="LowerWorld/WhiteBall"]
+amount = 30
+texture = SubResource("AtlasTexture_ll5lq")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+scale_amount_min = 0.05
+scale_amount_max = 0.1
+
+[node name="DeathParticles" type="CPUParticles2D" parent="LowerWorld/WhiteBall"]
+emitting = false
+amount = 30
+texture = SubResource("AtlasTexture_ll5lq")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 100.0
+scale_amount_min = 0.1
+scale_amount_max = 0.2
+
+[node name="Pop" type="AudioStreamPlayer" parent="LowerWorld/WhiteBall"]
+stream = ExtResource("4_xlg7c")
+
+[node name="UpperWorld" type="Node2D" parent="."]
+position = Vector2(0, 360)
+
+[node name="Walls" type="StaticBody2D" parent="UpperWorld"]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpperWorld/Walls"]
+shape = SubResource("WorldBoundaryShape2D_xwcet")
+
+[node name="BlackBall" type="CharacterBody2D" parent="UpperWorld" node_paths=PackedStringArray("game", "sync_partner") groups=["ball"]]
+position = Vector2(217, -222)
+collision_layer = 2
+script = ExtResource("2_p1ry8")
+ball_name = 1
+game = NodePath("../..")
+sync_partner = NodePath("../../LowerWorld/WhiteBall")
+
+[node name="Sprite2D" type="Sprite2D" parent="UpperWorld/BlackBall"]
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_p1ry8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpperWorld/BlackBall"]
+shape = SubResource("CircleShape2D_xlg7c")
+debug_color = Color(0.823529, 0.172549, 0.207843, 0.835294)
+
+[node name="TrailParticles" type="CPUParticles2D" parent="UpperWorld/BlackBall"]
+amount = 30
+texture = SubResource("AtlasTexture_17rxn")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+scale_amount_min = 0.05
+scale_amount_max = 0.1
+color = Color(0, 0, 0, 1)
+
+[node name="DeathParticles" type="CPUParticles2D" parent="UpperWorld/BlackBall"]
+emitting = false
+amount = 30
+texture = SubResource("AtlasTexture_ym5sv")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+scale_amount_min = 0.1
+scale_amount_max = 0.2
+color = Color(0, 0, 0, 1)
+
+[node name="Pop" type="AudioStreamPlayer" parent="UpperWorld/BlackBall"]
+stream = ExtResource("4_xlg7c")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(0, 360)
+script = ExtResource("5_xlg7c")
+
+[node name="GameUI" type="CanvasLayer" parent="."]
+
+[node name="GameOverFadeOut" type="ColorRect" parent="GameUI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="GameOver" type="Label" parent="GameUI/GameOverFadeOut"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -540.0
+offset_top = -119.0
+offset_right = 540.0
+offset_bottom = 119.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyButton"
+theme_override_font_sizes/font_size = 120
+text = "Game Over!"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameUI/GameOverFadeOut"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -63.0
+offset_top = -168.0
+offset_right = 77.0
+offset_bottom = -128.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyButton"
+theme_override_font_sizes/font_size = 30
+text = "Restart"
+alignment = 0
+
+[node name="ExitButton" type="Button" parent="GameUI/GameOverFadeOut"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -63.0
+offset_top = -104.0
+offset_right = 77.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyButton"
+theme_override_font_sizes/font_size = 30
+text = "Exit"
+alignment = 0
+
+[node name="NextLevelFadeOut" type="ColorRect" parent="GameUI"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="GameUI/NextLevelFadeOut"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyLabel"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 120
+text = "Next level!"
+
+[node name="Logo" type="ColorRect" parent="GameUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="GameUI/Logo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -79.5
+offset_right = 180.0
+offset_bottom = 79.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyLabel"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 180
+text = "xusir"
+
+[node name="UIAnimationPlayer" type="AnimationPlayer" parent="GameUI"]
+libraries = {
+&"": SubResource("AnimationLibrary_17rxn")
+}
+
+[node name="GameBGAudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_ll5lq")
+parameters/looping = false
+
+[connection signal="pressed" from="GameUI/GameOverFadeOut/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="GameUI/GameOverFadeOut/ExitButton" to="." method="_on_restart_button_pressed"]
