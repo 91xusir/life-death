@@ -12,14 +12,12 @@ var _t: float = 0.0
 var _moving_forward: bool = true
 
 func _ready():
-	# 创建碰撞形状
 	var collision_shape = CollisionShape2D.new()
 	var rectangle_shape = RectangleShape2D.new()
 	rectangle_shape.size = size
 	collision_shape.shape = rectangle_shape
 	add_child(collision_shape)
 	
-	# 设置初始位置和目标位置
 	_initial_position = position
 	_target_position = _initial_position + move_distance
 
@@ -39,14 +37,11 @@ func _process(delta):
 				_moving_forward = true
 
 func _draw():
-	# 绘制矩形
 	draw_rect(Rect2(-size/2, size), color)
 
-# 当属性变化时重新绘制
 func update_appearance():
 	queue_redraw()
 
-# 属性设置器
 func set_size(new_size):
 	size = new_size
 	update_appearance()

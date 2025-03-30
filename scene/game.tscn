@@ -252,7 +252,6 @@ _data = {
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ixvnl")
-debug = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(640, 0)
@@ -507,7 +506,6 @@ shape = SubResource("RectangleShape2D_qpk70")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="LogoFade" type="ColorRect" parent="UI"]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -680,6 +678,8 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 30
 text = "Score : 0"
 
+[connection signal="finished" from="GameBGAudioPlayer" to="." method="_on_game_bg_audio_player_finished"]
+[connection signal="finished" from="HardModeAudioPlayer" to="." method="_on_hard_mode_audio_player_finished"]
 [connection signal="body_entered" from="LeftArea" to="." method="_on_left_area_body_entered"]
 [connection signal="pressed" from="UI/GameOverFade/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="UI/GameOverFade/ExitButton" to="." method="_on_exit_button_pressed"]
