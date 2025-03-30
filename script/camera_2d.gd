@@ -11,7 +11,6 @@ func _ready():
 	position = (ball1.position + ball2.position) / 2
 	initial_y_position = position.y
 
-
 func _physics_process(_delta):
 	var center_position = Vector2((ball1.position.x + ball2.position.x) / 2, initial_y_position)
 	var smoothing_factor = 0.1

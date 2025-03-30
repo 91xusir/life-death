@@ -2,6 +2,8 @@ extends Node
 @onready var start_menu: Control = $StartMenu
 @onready var animation_player: AnimationPlayer = $StartMenu/AnimationPlayer
 @onready var start_music_player: AudioStreamPlayer = $StartMenu/StartMusicPlayer
+@onready var start_button_audio_player: AudioStreamPlayer = $StartMenu/StartButton/StartButtonAudioPlayer
+@onready var quit_button_audio_player: AudioStreamPlayer = $StartMenu/QuitButton/QuitButtonAudioPlayer
 
 var game_scene_path := "res://scene/game.tscn"
 
@@ -9,6 +11,7 @@ func _ready() -> void:
 	play_music()
 
 func _on_start_button_pressed() -> void:
+	start_button_audio_player.play()
 
 	# 这里学习一下异步加载场景
 	ResourceLoader.load_threaded_request(game_scene_path, "PackedScene")
@@ -24,10 +27,8 @@ func _on_start_button_pressed() -> void:
 	stop_music()
 	
 	if load_status == ResourceLoader.THREAD_LOAD_LOADED:
-		var game_scene = ResourceLoader.load_threaded_get(game_scene_path).instantiate()
-		# get_tree().change_scene_to_packed(game_scene)
-		add_child(game_scene)
-	start_menu.visible = false
+		var game_scene = ResourceLoader.load_threaded_get(game_scene_path)
+		get_tree().change_scene_to_packed(game_scene)
 
 func play_music():
 	start_music_player.volume_db = -80.0
@@ -49,4 +50,6 @@ func fade_out_music():
 	tween.play()
 
 func _on_quit_button_pressed() -> void:
+	quit_button_audio_player.play()
+	await quit_button_audio_player.finished
 	get_tree().quit()

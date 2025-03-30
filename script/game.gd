@@ -5,22 +5,22 @@ var game_over = false
 var black_ball_alive = true
 var white_ball_alive = true
 
+@export var debug := false
 # 获取节点引用
 @onready var black_ball = $UpperWorld/BlackBall
 @onready var white_ball = $LowerWorld/WhiteBall
-@onready var ui_animation_player: AnimationPlayer = $GameUI/UIAnimationPlayer
 @onready var game_bg_audio_player: AudioStreamPlayer = $GameBGAudioPlayer
+@onready var fade_animation_player: AnimationPlayer = $UI/FadeAnimationPlayer
+@onready var restart_button_audio_player: AudioStreamPlayer = $UI/GameOverFade/RestartButton/RestartButtonAudioPlayer
+@onready var exit_button_audio_player: AudioStreamPlayer = $UI/GameOverFade/ExitButton/ExitButtonAudioPlayer
 
 func _ready():
-	ui_animation_player.play("start")
-	
+	fade_animation_player.queue("logo_fade_out")
 	reset_game()
-	
 	game_bg_audio_player.volume_db = -80
 	game_bg_audio_player.play()
-	
 	fade_in_music()
-
+	
 func _process(_delta):
 	if not game_over:
 		check_game_state()
@@ -36,39 +36,28 @@ func fade_out_music():
 	tween.play()
 
 func check_game_state():
-	# 检查是否两个球都死亡
 	if not black_ball_alive and not white_ball_alive:
-		# 两个球都死亡，游戏结束
-		if black_ball.is_death_animation_finished() and white_ball.is_death_animation_finished():
-			game_over = true
-			show_game_over()
-	elif not black_ball_alive and black_ball.is_death_animation_finished():
-		# 只有黑球死亡，一秒后复活
-		await get_tree().create_timer(1.0).timeout
-		if not game_over: # 确保游戏还没结束
+		game_over = true
+		show_game_over()
+	elif not black_ball_alive:
+		if not game_over: 
 			black_ball.reset()
 			black_ball_alive = true
-	elif not white_ball_alive and white_ball.is_death_animation_finished():
-		# 只有白球死亡，一秒后复活
-		await get_tree().create_timer(1.0).timeout
-		if not game_over: # 确保游戏还没结束
+	elif not white_ball_alive:
+		if not game_over: 
 			white_ball.reset()
 			white_ball_alive = true
 
 func show_game_over():
-	ui_animation_player.play("game_over")
-	fade_out_music() # 游戏结束时淡出音乐
+	fade_animation_player.queue("game_over")
+	fade_out_music() 
 
-## 重置游戏
 func reset_game():
 	game_over = false
 	black_ball_alive = true
 	white_ball_alive = true
-	# 重置球的位置和状态
 	black_ball.reset()
 	white_ball.reset()
-	
-	# 如果音乐已经停止，重新开始播放并渐入
 	if !game_bg_audio_player.playing:
 		game_bg_audio_player.play()
 		fade_in_music()
@@ -80,12 +69,20 @@ func on_white_ball_death():
 	white_ball_alive = false
 
 func _on_restart_button_pressed():
+	restart_button_audio_player.play()
+	if fade_animation_player.is_playing():
+		await fade_animation_player.animation_finished
+	fade_animation_player.play_backwards("game_over")
 	reset_game()
-	fade_in_music() # 重新开始游戏时淡入音乐
-
+	fade_in_music()
 
 func _on_left_area_body_entered(_body: Node2D) -> void:
-	print("left area entered")
-	ui_animation_player.play("null_area")
-	await ui_animation_player.animation_finished
+	print("null area entered")
+	fade_animation_player.queue("null_area")
 	reset_game()
+
+
+func _on_exit_button_pressed() -> void:
+	exit_button_audio_player.play()
+	await exit_button_audio_player.finished
+	get_tree().change_scene_to_file("res://scene/main.tscn")

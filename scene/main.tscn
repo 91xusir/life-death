@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://6nfs2efistah"]
+[gd_scene load_steps=20 format=3 uid="uid://6nfs2efistah"]
 
 [ext_resource type="Script" uid="uid://d0g78xeuirvg1" path="res://script/main.gd" id="1_0ha60"]
 [ext_resource type="Shader" uid="uid://cml4o12h8o652" path="res://assets/shader/circle_shader.gdshader" id="2_4j5ol"]
 [ext_resource type="Texture2D" uid="uid://crwiilrsgr238" path="res://assets/texture/title.png" id="3_p1hux"]
 [ext_resource type="Theme" uid="uid://cjlmk6m8bqip5" path="res://assets/game_theme.tres" id="4_of57s"]
 [ext_resource type="AudioStream" uid="uid://j6hynm5oc4b8" path="res://assets/audio/start.mp3" id="5_b5f6u"]
+[ext_resource type="AudioStream" uid="uid://cjsh44l5r05em" path="res://assets/audio/Minimalist11.wav" id="5_of57s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xmel7"]
 shader = ExtResource("2_4j5ol")
@@ -23,6 +24,25 @@ region = Rect2(136, 24, 369, 120)
 [sub_resource type="AtlasTexture" id="AtlasTexture_4q4wj"]
 atlas = ExtResource("3_p1hux")
 region = Rect2(176, 208, 280, 128)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ha60"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4j5ol"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p1hux"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_of57s"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_color = Color(0.223103, 0.223103, 0.223103, 1)
 
 [sub_resource type="Animation" id="Animation_gbpcu"]
 length = 0.001
@@ -89,7 +109,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("StartMenu/Logo:modulate")
+tracks/5/path = NodePath("StartMenu/LogoFade:modulate")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -97,6 +117,42 @@ tracks/5/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("StartMenu/StartButton:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("StartMenu/QuitButton:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("StartMenu/GameTitle:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_xmel7"]
@@ -134,7 +190,7 @@ step = 0.0125
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("StartMenu/Logo:visible")
+tracks/0/path = NodePath("StartMenu/LogoFade:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -146,7 +202,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("StartMenu/Logo:modulate")
+tracks/1/path = NodePath("StartMenu/LogoFade:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -222,7 +278,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("StartMenu/Logo:visible")
+tracks/5/path = NodePath("StartMenu/LogoFade:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -234,14 +290,50 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("StartMenu/Logo:modulate")
+tracks/6/path = NodePath("StartMenu/LogoFade:modulate")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.666667, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.286275), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("StartMenu/StartButton:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("StartMenu/QuitButton:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("StartMenu/GameTitle:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_bhewb"]
@@ -255,7 +347,7 @@ _data = {
 [node name="main" type="Node"]
 script = ExtResource("1_0ha60")
 
-[node name="StartMenu" type="Control" parent="."]
+[node name="StartMenu" type="Control" parent="." groups=["StartMenu"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -268,7 +360,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 560.0
+offset_top = -280.0
+offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = 1.5708
@@ -357,9 +450,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -184.5
-offset_top = 20.0
+offset_top = 25.0
 offset_right = 184.5
-offset_bottom = 140.0
+offset_bottom = 145.0
 grow_horizontal = 2
 pivot_offset = Vector2(184, 60)
 texture = SubResource("AtlasTexture_2c8gs")
@@ -381,49 +474,7 @@ scale = Vector2(0.5, 0.5)
 pivot_offset = Vector2(140, 64)
 texture = SubResource("AtlasTexture_4q4wj")
 
-[node name="StartButton" type="Button" parent="StartMenu/GameTitle"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -206.0
-offset_top = -153.0
-offset_right = -18.0
-offset_bottom = -73.0
-grow_horizontal = 2
-grow_vertical = 0
-theme = ExtResource("4_of57s")
-theme_type_variation = &"MyButton"
-theme_override_font_sizes/font_size = 60
-text = "Start"
-alignment = 0
-
-[node name="QuitButton" type="Button" parent="StartMenu/GameTitle"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 28.0
-offset_top = -153.0
-offset_right = 196.0
-offset_bottom = -73.0
-grow_horizontal = 2
-grow_vertical = 0
-theme = ExtResource("4_of57s")
-theme_type_variation = &"MyButton"
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_colors/font_color = Color(0.366595, 0.366595, 0.366595, 1)
-theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
-theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 60
-text = "Exit"
-alignment = 0
-
-[node name="Logo" type="ColorRect" parent="StartMenu"]
+[node name="LogoFade" type="ColorRect" parent="StartMenu"]
 visible = false
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
@@ -434,7 +485,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="StartMenu/Logo"]
+[node name="Label" type="Label" parent="StartMenu/LogoFade"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -453,6 +504,58 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 180
 text = "xusir"
 
+[node name="StartButton" type="Button" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -206.0
+offset_top = -153.0
+offset_right = -18.0
+offset_bottom = -73.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("4_of57s")
+theme_type_variation = &"MyButton"
+theme_override_font_sizes/font_size = 60
+text = "Start"
+alignment = 0
+
+[node name="StartButtonAudioPlayer" type="AudioStreamPlayer" parent="StartMenu/StartButton"]
+stream = ExtResource("5_of57s")
+
+[node name="QuitButton" type="Button" parent="StartMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = -153.0
+offset_right = 185.0
+offset_bottom = -73.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("4_of57s")
+theme_type_variation = &"MyButton"
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.366595, 0.366595, 0.366595, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+theme_override_styles/focus = SubResource("StyleBoxFlat_0ha60")
+theme_override_styles/hover = SubResource("StyleBoxFlat_4j5ol")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_p1hux")
+theme_override_styles/normal = SubResource("StyleBoxFlat_of57s")
+text = "Quit"
+alignment = 0
+
+[node name="QuitButtonAudioPlayer" type="AudioStreamPlayer" parent="StartMenu/QuitButton"]
+stream = ExtResource("5_of57s")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="StartMenu"]
 root_node = NodePath("../..")
 libraries = {
@@ -463,5 +566,5 @@ libraries = {
 stream = ExtResource("5_b5f6u")
 parameters/looping = false
 
-[connection signal="pressed" from="StartMenu/GameTitle/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="StartMenu/GameTitle/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="StartMenu/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="StartMenu/QuitButton" to="." method="_on_quit_button_pressed"]
