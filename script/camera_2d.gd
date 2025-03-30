@@ -8,7 +8,6 @@ func _ready():
 	ball1 = get_tree().get_nodes_in_group("ball")[0]
 	ball2 = get_tree().get_nodes_in_group("ball")[1]
 	offset = Vector2(0.0, get_viewport_rect().size.y / 2)
-	position = (ball1.position + ball2.position) / 2
 	initial_y_position = position.y
 
 func _physics_process(_delta):

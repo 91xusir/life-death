@@ -1,14 +1,5 @@
 extends Node2D
 class_name Game
-# 游戏状态变量
-var game_over = false
-var score = 0 # 分数
-var last_obstacle_position = 0 # 上一个障碍物的位置
-var obstacle_interval = 300 # 障碍物生成间隔
-var obstacle_gap = 200 # 障碍物之间的空隙
-var passed_obstacles = [] # 已经通过的障碍物
-var difficulty_level = 0 # 当前难度等级
-var difficulty_threshold = 100 # 每隔多少分提高一次难度
 
 @export var debug := false
 @onready var black_ball: BaseBall = $UpperWorld/BlackBall
@@ -21,7 +12,18 @@ var difficulty_threshold = 100 # 每隔多少分提高一次难度
 @onready var upper_world: Node2D = $UpperWorld # 上半世界
 @onready var lower_world: Node2D = $LowerWorld # 下半世界
 @onready var game_score: Label = $UI/GameScore
+@onready var score_count: Label = $UI/GameOverFade/ScoreCount
 @onready var obstacle_2d = preload("res://scene/obstacle_2d.tscn")
+
+
+var game_over = false
+var score = 0 # 分数
+var last_obstacle_position = 0 # 上一个障碍物的位置
+var obstacle_interval = 300 # 障碍物生成间隔
+var obstacle_gap = 200 # 障碍物之间的空隙
+var passed_obstacles = [] # 已经通过的障碍物
+var difficulty_level = 0 # 当前难度等级
+var difficulty_threshold = 100 # 每隔多少分提高一次难度
 
 func _ready():
 	fade_animation_player.queue("logo_fade_out")
@@ -57,6 +59,8 @@ func show_game_over():
 		game_bg_audio_player.stop()
 	if hard_mode_audio_player.playing:
 		hard_mode_audio_player.stop()
+
+	score_count.text = game_score.text
 
 func reset_game():
 	game_over = false
@@ -94,8 +98,11 @@ func _on_restart_button_pressed():
 	reset_game()
 
 func _on_left_area_body_entered(_body: Node2D) -> void:
+	if _body is BaseBall:
+		if _body.ball_name==0:
+			return
 	print("null area entered")
-	fade_animation_player.queue("null_area")
+	fade_animation_player.play("null_area",-1,0.5)
 	reset_game()
 
 
@@ -133,7 +140,6 @@ func increase_difficulty() -> void:
 	# obstacle_interval = max(150, 300 - difficulty_level * 30)
 
 	obstacle_gap = max(100, 200 - difficulty_level * 10)
-
 	if difficulty_level == 5:
 		if game_bg_audio_player.playing:
 			fade_out_music(game_bg_audio_player)
@@ -160,8 +166,8 @@ func generate_obstacles(x_position: float) -> void:
 	#上上
 	var upper_obstacle1 = obstacle_2d.instantiate()
 	# 随机高度，但确保留出足够空间给间隙和第二个障碍物
-	var max_height = 360 - obstacle_gap - 50 # 确保第二个障碍物至少有50的高度
-	var upper_height = randf_range(50.0, max_height) # 随机高度
+	var max_height = 360 - obstacle_gap - 50
+	var upper_height = randf_range(50.0, max_height)
 	upper_obstacle1.color = Color(0, 0, 0, 1) # 黑色
 	upper_obstacle1.size = Vector2(50, upper_height)
 	var upper_x_offset = randf_range(-100, 100)
@@ -169,7 +175,7 @@ func generate_obstacles(x_position: float) -> void:
 	#上下
 	var upper_obstacle2 = obstacle_2d.instantiate()
 	var upper_height2 = 360 - obstacle_gap - upper_height
-	upper_obstacle2.color = Color(0, 0, 0, 1) # 黑色
+	upper_obstacle2.color = Color(0, 0, 0, 1)
 	upper_obstacle2.size = Vector2(50, upper_height2)
 	upper_obstacle2.position = Vector2(x_position + upper_x_offset, -360 + upper_height2 / 2)
 	upper_obstacle1.add_to_group("obstacle")
@@ -180,7 +186,7 @@ func generate_obstacles(x_position: float) -> void:
 	var random_direction = randi_range(0, 1)
 	# 为下半世界生成障碍物
 	var lower_obstacle = obstacle_2d.instantiate()
-	var lower_height = randf_range(50.0, 100.0) # 随机高度
+	var lower_height = randf_range(50.0, 100.0)
 	lower_obstacle.size = Vector2(50, lower_height)
 	lower_obstacle.color = Color(1, 1, 1, 1) # 白色
 	var lower_x_offset = randf_range(-100, 100)

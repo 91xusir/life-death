@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://by5tjfh0v85x0"]
+[gd_scene load_steps=29 format=3 uid="uid://by5tjfh0v85x0"]
 
 [ext_resource type="Script" uid="uid://c0w8rv4u48e6y" path="res://script/game.gd" id="1_ixvnl"]
 [ext_resource type="Script" uid="uid://bml4f11ttyeu0" path="res://script/base_ball.gd" id="2_p1ry8"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://dh24n8phn1w7d" path="res://assets/audio/game.mp3" id="8_ll5lq"]
 [ext_resource type="AudioStream" uid="uid://cu1inthb7aiyd" path="res://assets/audio/pop2.mp3" id="9_17rxn"]
 [ext_resource type="AudioStream" uid="uid://cjsh44l5r05em" path="res://assets/audio/Minimalist11.wav" id="10_yq8tf"]
+[ext_resource type="PackedScene" uid="uid://do7jh1qrw83e5" path="res://scene/tai_chi.tscn" id="12_sng2h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xlg7c"]
 radius = 16.0312
@@ -288,6 +289,9 @@ theme_type_variation = &"MyLabel"
 theme_override_font_sizes/font_size = 30
 text = "As you can see, it's a simple game~"
 
+[node name="TaiChi" parent="." instance=ExtResource("12_sng2h")]
+position = Vector2(-275, 355)
+
 [node name="BackGround" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="BackGround"]
@@ -377,6 +381,7 @@ stream = ExtResource("9_17rxn")
 volume_db = -15.0
 
 [node name="Floor" type="StaticBody2D" parent="UpperWorld"]
+visible = false
 position = Vector2(0, -5)
 collision_layer = 4
 collision_mask = 32
@@ -464,6 +469,7 @@ stream = ExtResource("9_17rxn")
 volume_db = -15.0
 
 [node name="Floor" type="StaticBody2D" parent="LowerWorld"]
+visible = false
 position = Vector2(0, 5)
 collision_layer = 8
 collision_mask = 32
@@ -486,7 +492,7 @@ debug_color = Color(1, 1, 1, 0.42)
 
 [node name="BornArea" type="Area2D" parent="." groups=["born"]]
 position = Vector2(660, 122)
-collision_layer = 2
+collision_layer = 16
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BornArea"]
@@ -495,11 +501,11 @@ debug_color = Color(4.33177e-07, 0.63294, 0.445992, 0.42)
 
 [node name="LeftArea" type="Area2D" parent="."]
 position = Vector2(-360, 360)
-collision_layer = 2
+collision_layer = 16
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArea"]
-position = Vector2(-235, 0)
+position = Vector2(-439, 0)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_qpk70")
 
@@ -545,21 +551,37 @@ color = Color(0, 0, 0, 1)
 
 [node name="GameOver" type="Label" parent="UI/GameOverFade"]
 layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -540.0
+offset_top = 63.0
+offset_right = 540.0
+offset_bottom = 241.0
+grow_horizontal = 2
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyButton"
+theme_override_font_sizes/font_size = 120
+text = "Game Over!"
+horizontal_alignment = 1
+
+[node name="ScoreCount" type="Label" parent="UI/GameOverFade"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -540.0
-offset_top = -119.0
-offset_right = 540.0
-offset_bottom = 119.0
+offset_left = -517.5
+offset_top = -53.0
+offset_right = 517.5
+offset_bottom = 53.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("7_qpk70")
 theme_type_variation = &"MyButton"
-theme_override_font_sizes/font_size = 120
-text = "Game Over!"
+theme_override_font_sizes/font_size = 50
+text = "Score : 0"
 horizontal_alignment = 1
 
 [node name="RestartButton" type="Button" parent="UI/GameOverFade"]
@@ -661,8 +683,8 @@ grow_vertical = 2
 theme = ExtResource("7_qpk70")
 theme_type_variation = &"MyLabel"
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 80
-text = "那边还没做呢"
+theme_override_font_sizes/font_size = 30
+text = "There is no development here ..."
 
 [node name="FadeAnimationPlayer" type="AnimationPlayer" parent="UI"]
 libraries = {

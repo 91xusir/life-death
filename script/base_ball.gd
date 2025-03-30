@@ -1,9 +1,16 @@
 class_name BaseBall
 extends CharacterBody2D
-
 enum BallName {White, Black}
+
 @export_enum("White", "Black") var ball_name: int
 @export var game: Game
+@export var other_ball: BaseBall # 另一个球的引用
+# 粒子
+@onready var trail_particles = $TrailParticles
+@onready var death_particles = $DeathParticles
+# 音效
+@onready var pop: AudioStreamPlayer = $Pop
+@onready var pop_2: AudioStreamPlayer = $Pop2
 var debug: bool = false
 # 球的基本属性
 var max_speed = 550.0 # 最大移动速度
@@ -17,15 +24,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var is_dead = false
 var initial_global_position # 初始位置
 var run_direction = 0.0 # 运动方向
-@export var other_ball: BaseBall # 另一个球的引用
-# 粒子
-@onready var trail_particles = $TrailParticles
-@onready var death_particles = $DeathParticles
+var is_in_taichi: bool = false	# 是否在太极上
 #粒子淡出tween
 var particles_tween: Tween = null
-# 音效
-@onready var pop: AudioStreamPlayer = $Pop
-@onready var pop_2: AudioStreamPlayer = $Pop2
 
 func _ready():
 	debug = game.debug
@@ -39,14 +40,13 @@ func _ready():
 		initial_global_position = get_black_bron_position()
 
 func _process(delta):
-	if is_dead:
+	if is_dead or is_in_taichi:
 		return
 	rotate_ball(delta)
 
 func _physics_process(delta):
-	if is_dead:
+	if is_dead or is_in_taichi:
 		return
-	
 	process_input(delta)
 	velocity.y += gravity * delta
 	var pre_collision_velocity = velocity.y
