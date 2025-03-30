@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://by5tjfh0v85x0"]
+[gd_scene load_steps=28 format=3 uid="uid://by5tjfh0v85x0"]
 
 [ext_resource type="Script" uid="uid://c0w8rv4u48e6y" path="res://script/game.gd" id="1_ixvnl"]
 [ext_resource type="Script" uid="uid://bml4f11ttyeu0" path="res://script/base_ball.gd" id="2_p1ry8"]
 [ext_resource type="Texture2D" uid="uid://dbnlx3to4x3da" path="res://assets/texture/ball_texture.png" id="3_xwcet"]
 [ext_resource type="Texture2D" uid="uid://t0skmtwsjrlr" path="res://assets/texture/tips.png" id="4_ll5lq"]
 [ext_resource type="AudioStream" uid="uid://c8q74wdtsfjgk" path="res://assets/audio/pop.mp3" id="4_xlg7c"]
+[ext_resource type="AudioStream" uid="uid://b3j0if22mqsw8" path="res://assets/audio/game_2.mp3" id="4_ym5sv"]
 [ext_resource type="Script" uid="uid://ymvp411wk2qy" path="res://script/camera_2d.gd" id="5_xlg7c"]
 [ext_resource type="Theme" uid="uid://cjlmk6m8bqip5" path="res://assets/game_theme.tres" id="7_qpk70"]
 [ext_resource type="AudioStream" uid="uid://dh24n8phn1w7d" path="res://assets/audio/game.mp3" id="8_ll5lq"]
@@ -262,6 +263,9 @@ script = ExtResource("5_xlg7c")
 stream = ExtResource("8_ll5lq")
 parameters/looping = false
 
+[node name="HardModeAudioPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ym5sv")
+
 [node name="Tips" type="Node2D" parent="."]
 modulate = Color(1, 1, 1, 0.741176)
 position = Vector2(440, 260)
@@ -305,7 +309,8 @@ position = Vector2(0, 360)
 
 [node name="BlackBall" type="CharacterBody2D" parent="UpperWorld" node_paths=PackedStringArray("game", "other_ball") groups=["ball"]]
 position = Vector2(217, -222)
-collision_layer = 2
+collision_layer = 32
+collision_mask = 22
 script = ExtResource("2_p1ry8")
 ball_name = 1
 game = NodePath("../..")
@@ -373,7 +378,9 @@ stream = ExtResource("9_17rxn")
 volume_db = -15.0
 
 [node name="Floor" type="StaticBody2D" parent="UpperWorld"]
-collision_mask = 2
+position = Vector2(0, -5)
+collision_layer = 4
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UpperWorld/Floor"]
 shape = SubResource("WorldBoundaryShape2D_xwcet")
@@ -381,7 +388,8 @@ shape = SubResource("WorldBoundaryShape2D_xwcet")
 [node name="UpWall" type="StaticBody2D" parent="UpperWorld" groups=["wall"]]
 position = Vector2(281, -360)
 rotation = 3.14159
-collision_mask = 2
+collision_layer = 2
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="UpperWorld/UpWall"]
 shape = SubResource("WorldBoundaryShape2D_xwcet")
@@ -391,8 +399,8 @@ position = Vector2(0, 360)
 
 [node name="WhiteBall" type="CharacterBody2D" parent="LowerWorld" node_paths=PackedStringArray("game", "other_ball") groups=["ball"]]
 position = Vector2(217, 222)
-collision_layer = 8
-collision_mask = 4
+collision_layer = 32
+collision_mask = 26
 up_direction = Vector2(0, 1)
 script = ExtResource("2_p1ry8")
 game = NodePath("../..")
@@ -457,8 +465,9 @@ stream = ExtResource("9_17rxn")
 volume_db = -15.0
 
 [node name="Floor" type="StaticBody2D" parent="LowerWorld"]
-collision_layer = 4
-collision_mask = 8
+position = Vector2(0, 5)
+collision_layer = 8
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LowerWorld/Floor"]
 rotation = 3.14159
@@ -468,8 +477,8 @@ debug_color = Color(1, 1, 1, 0.42)
 [node name="UpWalls" type="StaticBody2D" parent="LowerWorld" groups=["wall"]]
 position = Vector2(0, 360)
 rotation = 3.14159
-collision_layer = 4
-collision_mask = 8
+collision_layer = 2
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LowerWorld/UpWalls"]
 rotation = 3.14159
@@ -477,8 +486,9 @@ shape = SubResource("WorldBoundaryShape2D_p1ry8")
 debug_color = Color(1, 1, 1, 0.42)
 
 [node name="BornArea" type="Area2D" parent="." groups=["born"]]
-position = Vector2(638, 281)
-collision_mask = 2
+position = Vector2(660, 122)
+collision_layer = 2
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BornArea"]
 shape = SubResource("CircleShape2D_qpk70")
@@ -486,7 +496,8 @@ debug_color = Color(4.33177e-07, 0.63294, 0.445992, 0.42)
 
 [node name="LeftArea" type="Area2D" parent="."]
 position = Vector2(-360, 360)
-collision_mask = 2
+collision_layer = 2
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArea"]
 position = Vector2(-235, 0)
@@ -496,6 +507,7 @@ shape = SubResource("RectangleShape2D_qpk70")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="LogoFade" type="ColorRect" parent="UI"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -658,6 +670,15 @@ text = "那边还没做呢"
 libraries = {
 &"": SubResource("AnimationLibrary_17rxn")
 }
+
+[node name="GameScore" type="Label" parent="UI"]
+offset_right = 162.0
+offset_bottom = 40.0
+theme = ExtResource("7_qpk70")
+theme_type_variation = &"MyLabel"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "Score : 0"
 
 [connection signal="body_entered" from="LeftArea" to="." method="_on_left_area_body_entered"]
 [connection signal="pressed" from="UI/GameOverFade/RestartButton" to="." method="_on_restart_button_pressed"]

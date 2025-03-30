@@ -53,6 +53,14 @@ run_right={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_2="wall"
+2d_physics/layer_3="upfloor"
+2d_physics/layer_4="lowefloor"
+2d_physics/layer_5="area"
+2d_physics/layer_6="ball"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

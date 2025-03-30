@@ -11,7 +11,7 @@ var min_speed = 120.0 # 初始移动速度
 var bounce_factor = -0.8 # 弹力系数
 const ACCELERATION = 180.0 # 加速度
 const FRICTION = 100 # 摩擦力
-var jump_velocity = -400.0 # 跳跃速度
+var jump_velocity = -350.0 # 跳跃速度
 var current_speed = min_speed # 当前速度
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var is_dead = false
@@ -130,7 +130,7 @@ func check_obstacle_collision():
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
-		if collider.is_in_group("wall"):
+		if collider.is_in_group("obstacle"):
 			die()
 			break
 

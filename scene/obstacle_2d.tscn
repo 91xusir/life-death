@@ -3,4 +3,7 @@
 [ext_resource type="Script" uid="uid://df4fr43xg8dga" path="res://script/obstacle_2d.gd" id="1_5s8sy"]
 
 [node name="Obstacle2D" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 32
 script = ExtResource("1_5s8sy")
+color = Color(0, 0, 0, 1)
