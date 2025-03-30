@@ -1,75 +1,104 @@
 class_name BaseBall
 extends CharacterBody2D
 
-# 球的基本属性
-const MAX_SPEED = 300.0 # 最大移动速度
-const MIN_SPEED = 150.0 # 初始移动速度
-const ACCELERATION = 200.0 # 加速度
-const DECELERATION = 300.0 # 减速度
-const BOUNCE_FACTOR = 0.7 # 弹力系数
-var jump_velocity = -400.0 # 跳跃速度
-const INERTIA_FACTOR = 0.95 # 惯性衰减系数
-var current_speed = MIN_SPEED # 当前速度
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var is_dead = false
-var initial_position
 # 球的类型
 enum BallName {White, Black}
 @export_enum("White", "Black") var ball_name: int
 @export var game: Game
-# 粒子效果引用
+@export var debug: bool = false
+# 球的基本属性
+var max_speed = 550.0 # 最大移动速度
+var min_speed = 120.0 # 初始移动速度
+const ACCELERATION = 180.0 # 加速度
+const BOUNCE_FACTOR = 0.8 # 弹力系数
+const FRICTION = 100
+var jump_velocity = -400.0 # 跳跃速度
+var current_speed = min_speed # 当前速度
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var is_dead = false
+var initial_global_position # 初始位置
+var run_direction = 0.0 # 运动方向
+# 同步
+@export var sync_partner: BaseBall
+var is_master = false
+
+# 粒子
 @onready var trail_particles = $TrailParticles
 @onready var death_particles = $DeathParticles
-@onready var pop: AudioStreamPlayer = $Pop # 音效
+# 音效
+@onready var pop: AudioStreamPlayer = $Pop
 
 func _ready():
-	initial_position = position
-	if ball_name == BallName.White:
-		up_direction = Vector2.DOWN # 翻转地板方向
-		gravity = - gravity # 负值，因为白球的重力是向上的
-		jump_velocity = -jump_velocity
+	
+	initial_global_position = get_tree().get_first_node_in_group("born").global_position
+	trail_particles.emitting = true
+	is_master = (ball_name == BallName.Black)
+
+func _process(delta):
+	if is_dead:
+		return
+	if not is_master:
+		if sync_partner and !sync_partner.is_dead:
+			position.x = sync_partner.position.x
+			position.y = -sync_partner.position.y
+			velocity.x = sync_partner.velocity.x
+			velocity.y = -sync_partner.velocity.y
+		rotate_ball(delta)
+
 # 物理处理
 func _physics_process(delta):
 	if is_dead:
 		return
+		
+	if is_master:
+		process_input(delta)
+		velocity.y += gravity * delta
 
-	var previous_position = position
-	
-	velocity.y += gravity * delta # 重力
+		var pre_collision_velocity = velocity.y
+		var was_on_floor = is_on_floor()
 
-	# 处理水平移动
+		move_and_slide()
+
+		if is_on_floor() and !was_on_floor:
+			velocity.y = -abs(pre_collision_velocity) * BOUNCE_FACTOR
+			if abs(velocity.y) < 20:
+				velocity.y = 0
+			pop.play() 
+
+
+# 处理输入
+func process_input(delta):
 	var direction = Input.get_axis("run_left", "run_right")
-	if direction:
-		# 按下方向键时逐渐加速
-		current_speed = min(current_speed + ACCELERATION * delta, MAX_SPEED)
-		velocity.x = direction * current_speed * INERTIA_FACTOR
+	if not direction == 0:
+		current_speed = min(current_speed + ACCELERATION * delta, max_speed)
+		run_direction = direction
 	else:
-		# 没有按下方向键时逐渐减速
-		current_speed = max(current_speed - DECELERATION * delta, MIN_SPEED)
-		# 应用摩擦力减速
-		velocity.x = move_toward(velocity.x, 0, DECELERATION * delta)
-	
-	var collision = move_and_collide(velocity * delta)
-	if collision:
-		velocity = velocity.bounce(collision.get_normal())
-		pop.play()
+		current_speed = max(current_speed - FRICTION * delta, 0)
+	velocity.x = current_speed * run_direction
+	# 跳跃
+	if Input.is_action_just_pressed("jump"):
+		velocity.y = jump_velocity
 
-	if position != previous_position:
-		trail_particles.emitting = true
-	else:
-		trail_particles.emitting = false
 
+# 根据速度旋转球
+func rotate_ball(delta):
+	# 旋转速度系数
+	var rotation_speed = 0.1
+	# 根据水平速度设置旋转
+	rotation += velocity.x * rotation_speed * delta
+	# 同步旋转到白球
+	if sync_partner and !sync_partner.is_dead:
+		sync_partner.rotation = rotation
+
+
+# 死亡
 func die():
 	if is_dead:
 		return
 	is_dead = true
 	velocity = Vector2.ZERO
-	
-	# 隐藏精灵并停止拖尾粒子
 	$Sprite2D.visible = false
 	trail_particles.emitting = false
-	
-	# 播放死亡粒子效果
 	death_particles.emitting = true
 	if ball_name == BallName.White:
 		game.on_white_ball_death()
@@ -83,8 +112,8 @@ func is_death_animation_finished() -> bool:
 # 重置球的状态
 func reset():
 	is_dead = false
-	position = initial_position
+	global_position = initial_global_position
 	velocity = Vector2.ZERO
+	current_speed = min_speed # 重置当前速度
 	$Sprite2D.visible = true
-	death_particles.emitting = false
-	trail_particles.emitting = false
+	$Sprite2D.rotation = 0 # 重置旋转

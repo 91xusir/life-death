@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=5 format=3 uid="uid://cjlmk6m8bqip5"]
 
-[ext_resource type="FontFile" uid="uid://bswclbtlwh1c0" path="res://assets/JetBrainsMonoNL-Bold.ttf" id="1_tgk0f"]
+[ext_resource type="FontFile" uid="uid://bswclbtlwh1c0" path="res://assets/font/JetBrainsMonoNL-Bold.ttf" id="1_tgk0f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tgk0f"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
@@ -25,8 +25,8 @@ border_blend = true
 [resource]
 MyButton/base_type = &"Button"
 MyButton/colors/font_focus_color = Color(1, 1, 1, 1)
-MyButton/colors/font_hover_color = Color(0.912289, 0.912289, 0.912289, 1)
-MyButton/colors/font_hover_pressed_color = Color(1, 1, 1, 1)
+MyButton/colors/font_hover_color = Color(1, 1, 1, 1)
+MyButton/colors/font_pressed_color = Color(1, 1, 1, 1)
 MyButton/fonts/font = ExtResource("1_tgk0f")
 MyButton/styles/hover = SubResource("StyleBoxFlat_tgk0f")
 MyButton/styles/normal = SubResource("StyleBoxFlat_s1n0q")
